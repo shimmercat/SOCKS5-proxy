@@ -53,6 +53,10 @@ sudo -u socks ssh -o StrictHostKeyChecking=no -f -N -D $IP_ETH1:1080 localhost
 # Traffic control settings
 tc qdisc add dev eth1 root tbf rate 1mbit burst 32kbit latency 400ms
 
+{% for host_alias in host_aliases %}
+echo "{{ host_alias.ip }}" "{{ host_alias.name }}" >> /etc/hosts
+{% endfor %}
+
 # https://wiki.linuxfoundation.org/networking/netem
 # tc qdisc add dev eth1 root netem delay 100ms 20ms distribution normal
 # tc qdisc change dev eth1 root netem loss 0.3% 25%
